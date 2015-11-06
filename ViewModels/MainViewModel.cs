@@ -51,7 +51,7 @@ namespace MVVMEditComboBoxItemsSample
                 OnPropertyChanged(nameof(SelectedThing));
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(Price));
-                OnPropertyChanged(nameof(Things));
+                //OnPropertyChanged(nameof(Things));
             }
         }
 
@@ -59,14 +59,17 @@ namespace MVVMEditComboBoxItemsSample
         {
             get
             {
-                return SelectedThing.Name;
+                if (SelectedThing != null)
+                {
+                    return SelectedThing.Name;
+                }
+                return null;
             }
 
             set
             {
                 SelectedThing.Name = value;
                 OnPropertyChanged(nameof(Name));
-                OnPropertyChanged(nameof(Things));
             }
         }
 
@@ -74,7 +77,11 @@ namespace MVVMEditComboBoxItemsSample
         {
             get
             {
-                return SelectedThing.Price;
+                if (SelectedThing != null)
+                {
+                    return SelectedThing.Price;
+                }
+                return null;
             }
 
             set
@@ -106,7 +113,6 @@ namespace MVVMEditComboBoxItemsSample
                 }
                 return cloneCommand;
             }
-
         }
 
         public ICommand DeleteCommand
@@ -119,12 +125,13 @@ namespace MVVMEditComboBoxItemsSample
                 }
                 return deleteCommand;
             }
-
         }
 
         public void AddItem()
         {
-            this.Things.Add(new Thing());
+            Thing newThing = new Thing();
+            Things.Add(newThing);
+            SelectedThing = newThing;
         }
 
         public void CloneItem()
@@ -132,19 +139,21 @@ namespace MVVMEditComboBoxItemsSample
             Thing clonedThing = new Thing();
             clonedThing.Name = SelectedThing.Name;
             clonedThing.Price = SelectedThing.Price;
-            this.Things.Add(clonedThing);
+            Things.Add(clonedThing);
+            SelectedThing = clonedThing;
         }
 
         public void DeleteItem()
         {
-            if (Things.Count < 2)
-                return; //we must leave at least one thing in the inventory
-
             Thing tempThing = new Thing();
             tempThing = SelectedThing;
             if (Things.IndexOf(SelectedThing) != 0)
             {
                 SelectedThing = Things.FirstOrDefault();
+            }
+            else if (Things.Count==1)
+            {
+                SelectedThing = null;
             }
             else
             {
@@ -153,6 +162,5 @@ namespace MVVMEditComboBoxItemsSample
 
             Things.Remove(tempThing);
         }
-
     }
 }

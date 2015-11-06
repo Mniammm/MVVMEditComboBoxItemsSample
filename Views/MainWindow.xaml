@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVMEditComboBoxItemsSample"
         mc:Ignorable="d"
-        Title="MainWindow" Height="372.52" Width="415.214">
+        Title="MVVM ComboBox edit sample" Height="372.52" Width="415.214">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"></RowDefinition>
