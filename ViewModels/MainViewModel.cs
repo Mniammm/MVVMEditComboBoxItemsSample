@@ -51,7 +51,6 @@ namespace MVVMEditComboBoxItemsSample
                 OnPropertyChanged(nameof(SelectedThing));
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(Price));
-                //OnPropertyChanged(nameof(Things));
             }
         }
 
@@ -70,6 +69,7 @@ namespace MVVMEditComboBoxItemsSample
             {
                 SelectedThing.Name = value;
                 OnPropertyChanged(nameof(Name));
+                RefreshList();
             }
         }
 
@@ -109,7 +109,7 @@ namespace MVVMEditComboBoxItemsSample
             {
                 if(cloneCommand==null)
                 {
-                    cloneCommand = new CommandBase(i => CloneItem(), null);
+                    cloneCommand = new CommandBase(i => CloneItem(), i => SelectedThing!=null);
                 }
                 return cloneCommand;
             }
@@ -121,7 +121,7 @@ namespace MVVMEditComboBoxItemsSample
             {
                 if(deleteCommand==null)
                 {
-                    deleteCommand = new CommandBase(i => DeleteItem(), null);
+                    deleteCommand = new CommandBase(i => DeleteItem(), i => SelectedThing!=null);
                 }
                 return deleteCommand;
             }
@@ -137,7 +137,7 @@ namespace MVVMEditComboBoxItemsSample
         public void CloneItem()
         {
             Thing clonedThing = new Thing();
-            clonedThing.Name = SelectedThing.Name;
+            clonedThing.Name = SelectedThing.Name + " - copy";
             clonedThing.Price = SelectedThing.Price;
             Things.Add(clonedThing);
             SelectedThing = clonedThing;
@@ -161,6 +161,15 @@ namespace MVVMEditComboBoxItemsSample
             }
 
             Things.Remove(tempThing);
+        }
+
+        private void RefreshList()
+        {
+            List<Thing> tempThings = Things.ToList();
+            Thing tempThing = SelectedThing;
+            Things = null; //for instant combobox update, comment out if unnecesary
+            Things = new ObservableCollection<Thing>(tempThings);
+            SelectedThing = tempThing;
         }
     }
 }
