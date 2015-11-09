@@ -49,45 +49,6 @@ namespace MVVMEditComboBoxItemsSample
             {
                 selectedThing = value;
                 OnPropertyChanged(nameof(SelectedThing));
-                OnPropertyChanged(nameof(Name));
-                OnPropertyChanged(nameof(Price));
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                if (SelectedThing != null)
-                {
-                    return SelectedThing.Name;
-                }
-                return null;
-            }
-
-            set
-            {
-                SelectedThing.Name = value;
-                OnPropertyChanged(nameof(Name));
-                RefreshList();
-            }
-        }
-
-        public string Price
-        {
-            get
-            {
-                if (SelectedThing != null)
-                {
-                    return SelectedThing.Price;
-                }
-                return null;
-            }
-
-            set
-            {
-                SelectedThing.Price = value;
-                OnPropertyChanged(nameof(Price));
             }
         }
 
@@ -161,15 +122,6 @@ namespace MVVMEditComboBoxItemsSample
             }
 
             Things.Remove(tempThing);
-        }
-
-        private void RefreshList()
-        {
-            List<Thing> tempThings = Things.ToList();
-            Thing tempThing = SelectedThing;
-            Things = null; //for instant combobox update, comment out if unnecesary
-            Things = new ObservableCollection<Thing>(tempThings);
-            SelectedThing = tempThing;
         }
     }
 }
