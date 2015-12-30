@@ -24,7 +24,7 @@ namespace MVVMEditComboBoxItemsSample
 
             BootStrapper.Initialize();
 
-            
+            // comment by mniamm
         }
     }
 }
